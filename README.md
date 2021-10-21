@@ -18,3 +18,11 @@ Windows用．
 ## 注意
 - 読み込ませるテキストファイルは，文字コードをUTF-8にしてください．
 - 結果は参考程度にしてください．取りこぼしがある可能性があります．特に，文章中にハイフン等が入っていると，間違った区切りで単語を認識する可能性があります．
+
+## ビルド方法
+Pythonパッケージの `PySimpleGUI` と，`pyinstaller` をインストールする．
+```
+git clone https://github.com/Odake-Atsushi/SimpleCopy-pasteChecker.git
+pyinstaller SCPChecker.py --onefile --noconsole --clean
+```
+`SimpleCopy-pasteChecker/dist` 以下に実行ファイルが生成される．
