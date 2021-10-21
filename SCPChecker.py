@@ -61,8 +61,13 @@ def check(number, filename1, filename2, classification):
 
 
 def error_window(msg):
-    error_layout = [[sg.Text(msg, key='error')], [sg.Button('OK', key='ok')]]
-    sub_window = sg.Window('エラー', layout=error_layout)
+    error_layout = [[sg.Text(msg, key='error')],
+                    [sg.Button('OK', key='ok', expand_x=True)]]
+    sub_window = sg.Window('エラー',
+                           error_layout,
+                           modal=True,
+                           keep_on_top=True,
+                           auto_size_text=True)
     while True:
         sub_event, sub_value = sub_window.read()
         sub_window['error'].update(msg)
@@ -77,42 +82,47 @@ sg.theme('Default')
 
 main_layout = [[sg.Text('検証対象のファイルと連続単語数を指定してください')],
                [
-                   sg.Text('ファイル1', size=(10, 1)),
+                   sg.Text('ファイル1'),
                    sg.InputText('', key='inputFile1Path'),
                    sg.FileBrowse('ファイルを選択',
                                  target='inputFile1Path',
                                  file_types=(('テキストファイル', '*.txt'), ))
                ],
                [
-                   sg.Text('ファイル2', size=(10, 1)),
+                   sg.Text('ファイル2'),
                    sg.InputText('', key='inputFile2Path'),
                    sg.FileBrowse('ファイルを選択',
                                  target='inputFile2Path',
                                  file_types=(('テキストファイル', '*.txt'), ))
                ],
                [
-                   sg.Text('連続単語数', size=(10, 1)),
-                   sg.InputText('', size=(4, 1), key='inputNumber')
+                   sg.Text('連続単語数'),
+                   sg.InputText('', size=(5, 1), key='inputNumber')
                ],
                [
-                   sg.Text('大文字,小文字の区別', size=(17, 1)),
+                   sg.Text('大文字,小文字の区別'),
                    sg.Combo(('なし', 'あり'),
+                            size=(5, 1),
                             default_value="なし",
-                            size=(10, 1),
                             key='distinction')
-               ], [sg.Button('検索', key='check')],
+               ], [sg.Button('検索', key='check', expand_x=True)],
                [
-                   sg.Text('検証結果', size=(10, 1)),
+                   sg.Text('検証結果'),
                    sg.Listbox([],
-                              size=(60, 10),
                               enable_events=True,
-                              key='output_list')
+                              key='output_list',
+                              expand_x=True,
+                              expand_y=True)
                ]]
 
-main_window = sg.Window('簡易コピペチェッカー', main_layout)
+main_window = sg.Window('簡易コピペチェッカー',
+                        main_layout,
+                        resizable=True,
+                        auto_size_buttons=True,
+                        auto_size_text=True,
+                        finalize=True)
 
-check_list = []
-check_count = 0
+main_window.set_min_size((550, 300))
 
 while True:
     event, values = main_window.read()
